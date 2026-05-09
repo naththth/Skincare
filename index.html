@@ -1,0 +1,2872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Pele Nath</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#730018">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Pele Nath">
+  <!-- v13: Supabase cloud sync movido para o final -->
+  <style>
+    :root {
+      --olive: #8f9270;
+      --soft-olive: #c9cdbb;
+      --sage: #dfe5d8;
+      --mustard: #b89457;
+      --wine: #730018;
+      --deep-wine: #590012;
+      --terracotta: #974b3e;
+      --cocoa: #6f574a;
+      --blush: #e4c5b3;
+      --cream: #f7f3ef;
+      --sand: #eee4d9;
+      --white: #ffffff;
+      --text: #352c28;
+      --muted: #756a63;
+      --line: rgba(53,44,40,.08);
+      --shadow: 0 16px 38px rgba(53,44,40,.12);
+      --soft-shadow: 0 8px 22px rgba(53,44,40,.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(151,75,62,.22), transparent 26%),
+        radial-gradient(circle at 85% 10%, rgba(184,148,87,.22), transparent 28%),
+        linear-gradient(180deg, var(--sage) 0%, var(--cream) 34%, #f1ebe4 100%);
+      display: flex;
+      justify-content: center;
+      padding: 12px 8px 36px;
+      color: var(--text);
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 440px;
+      min-height: 96vh;
+      border-radius: 34px;
+      overflow: hidden;
+      background: rgba(255,255,255,.76);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .hero {
+      padding: 24px 20px 52px;
+      background:
+        linear-gradient(135deg, rgba(115,0,24,.97), rgba(151,75,62,.92)),
+        radial-gradient(circle at 92% 18%, rgba(228,197,179,.4), transparent 25%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero:before {
+      content: "";
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      position: absolute;
+      right: -70px;
+      top: -60px;
+    }
+
+    .hero:after {
+      content: "";
+      width: 118px;
+      height: 118px;
+      border-radius: 34px;
+      background: rgba(184,148,87,.28);
+      position: absolute;
+      left: -35px;
+      bottom: -46px;
+      transform: rotate(18deg);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .top-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .mini-label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 850;
+      opacity: .84;
+    }
+
+    .today-pill {
+      font-size: 12px;
+      font-weight: 850;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 8px 11px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.04;
+      letter-spacing: -.04em;
+    }
+
+    .hero-subtitle {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.45;
+      opacity: .9;
+      max-width: 360px;
+    }
+
+    .content {
+      padding: 0 14px 28px;
+      margin-top: -34px;
+      position: relative;
+      z-index: 4;
+    }
+
+    .summary-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(53,44,40,.06);
+      margin-bottom: 14px;
+    }
+
+    .summary-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .summary-title {
+      font-size: 17px;
+      font-weight: 950;
+      color: var(--cocoa);
+      margin-bottom: 4px;
+    }
+
+    .summary-sub {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .progress-badge {
+      background: var(--sage);
+      color: var(--cocoa);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #efe7df;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--terracotta), var(--mustard));
+      transition: width .25s ease;
+    }
+
+    .calendar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 8px 0 12px;
+      background: linear-gradient(180deg, rgba(247,243,239,.98), rgba(247,243,239,.86));
+      backdrop-filter: blur(16px);
+      margin-bottom: 6px;
+    }
+
+    .calendar-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 2px 10px;
+    }
+
+    .calendar-title span:first-child {
+      font-size: 13px;
+      font-weight: 950;
+      color: var(--cocoa);
+      letter-spacing: .02em;
+    }
+
+    .calendar-title span:last-child {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 7px;
+    }
+
+    .day {
+      border: 0;
+      background: var(--white);
+      border-radius: 18px;
+      min-height: 76px;
+      padding: 9px 4px 8px;
+      box-shadow: 0 8px 18px rgba(53,44,40,.06);
+      border: 1px solid rgba(53,44,40,.055);
+      color: var(--cocoa);
+      cursor: pointer;
+      transition: .22s ease;
+      position: relative;
+    }
+
+    .day.active {
+      background: linear-gradient(180deg, var(--wine), var(--deep-wine));
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .day small {
+      display: block;
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .04em;
+      opacity: .82;
+      margin-bottom: 5px;
+    }
+
+    .day strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: .35;
+    }
+
+    .day.done:after {
+      content: "✓";
+      position: absolute;
+      top: -5px;
+      right: -3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--mustard);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 950;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(53,44,40,.18);
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin: 18px 4px 10px;
+    }
+
+    .period-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 16px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 13px;
+    }
+
+    .period-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .period-title-wrap {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+    }
+
+    .icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .icon.morning { background: rgba(184,148,87,.18); }
+    .icon.night { background: rgba(115,0,24,.11); }
+
+    .period-title {
+      font-size: 18px;
+      font-weight: 950;
+      color: var(--cocoa);
+      line-height: 1.1;
+    }
+
+    .period-subtitle {
+      font-size: 12.2px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    .mark-btn, .reset {
+      border: 0;
+      background: linear-gradient(135deg, var(--wine), var(--terracotta));
+      color: var(--white);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 8px 16px rgba(115,0,24,.18);
+    }
+
+    .reset {
+      width: 100%;
+      margin-top: 14px;
+      padding: 13px 14px;
+      font-size: 12.5px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .zone {
+      border-radius: 22px;
+      padding: 13px;
+      margin-top: 11px;
+      border: 1px solid rgba(53,44,40,.06);
+    }
+
+    .zone.face {
+      background: linear-gradient(135deg, rgba(223,229,216,.56), rgba(255,255,255,.86));
+    }
+
+    .zone.body {
+      background: linear-gradient(135deg, rgba(228,197,179,.42), rgba(255,255,255,.9));
+    }
+
+    .zone-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .zone-title {
+      font-size: 14px;
+      font-weight: 950;
+      color: var(--cocoa);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .zone-count {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: var(--muted);
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(53,44,40,.05);
+      border-radius: 999px;
+      padding: 5px 8px;
+      white-space: nowrap;
+    }
+
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .item {
+      display: flex;
+      gap: 11px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(53,44,40,.055);
+      transition: .2s ease;
+    }
+
+    .item.checked {
+      background: rgba(223,229,216,.85);
+      border-color: rgba(143,146,112,.28);
+    }
+
+    .item input {
+      width: 21px;
+      height: 21px;
+      margin: 2px 0 0;
+      accent-color: var(--wine);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .item label {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .item-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.34;
+      margin-bottom: 3px;
+    }
+
+    .item-desc {
+      font-size: 12.2px;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 7px;
+      background: rgba(151,75,62,.1);
+      color: var(--terracotta);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 950;
+    }
+
+    .mode-card {
+      background: linear-gradient(135deg, var(--olive), #a4a888);
+      color: var(--white);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 12px;
+    }
+
+    .mode-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .mode-head strong {
+      font-size: 17px;
+    }
+
+    .toggle {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,.2);
+      color: var(--white);
+      font-weight: 950;
+      cursor: pointer;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .mode-text {
+      font-size: 12.6px;
+      line-height: 1.5;
+      opacity: .93;
+    }
+
+    .dashboard {
+      display: grid;
+      gap: 10px;
+    }
+
+    .insight {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: 0 6px 18px rgba(53,44,40,.06);
+    }
+
+    .insight h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      color: var(--cocoa);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .insight p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.6px;
+      line-height: 1.5;
+    }
+
+    .water-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .water {
+      border: 0;
+      border-radius: 15px;
+      background: #f5efe9;
+      color: var(--cocoa);
+      font-size: 11.5px;
+      font-weight: 950;
+      padding: 11px 4px;
+      cursor: pointer;
+    }
+
+    .water.on {
+      background: linear-gradient(135deg, var(--terracotta), var(--mustard));
+      color: var(--white);
+    }
+
+    .water-alert {
+      display: none;
+      margin-top: 10px;
+      background: rgba(115,0,24,.07);
+      border: 1px solid rgba(115,0,24,.12);
+      color: var(--cocoa);
+      padding: 12px;
+      border-radius: 17px;
+      font-size: 12.4px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .water-alert.show {
+      display: block;
+    }
+
+
+    .cloud-card {
+      background: linear-gradient(135deg, rgba(223,229,216,.72), rgba(255,255,255,.95));
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(143,146,112,.18);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 12px;
+    }
+
+    .cloud-title {
+      font-size: 15px;
+      color: var(--cocoa);
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .cloud-text {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .cloud-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(53,44,40,.06);
+      color: var(--cocoa);
+      font-size: 11.5px;
+      font-weight: 900;
+    }
+
+    .weather-card {
+      background: linear-gradient(135deg, #fff, #fbf6f1);
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 12px;
+    }
+
+    .weather-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .weather-title {
+      font-size: 15px;
+      color: var(--cocoa);
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .weather-status {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .weather-btn {
+      border: 0;
+      background: var(--sage);
+      color: var(--cocoa);
+      font-weight: 950;
+      padding: 9px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+
+    .cycle-card {
+      background:
+        radial-gradient(circle at top right, rgba(228,197,179,.42), transparent 30%),
+        linear-gradient(135deg, #fff, #fbf6f1);
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 12px;
+    }
+
+    .cycle-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .cycle-title {
+      font-size: 15px;
+      color: var(--cocoa);
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .cycle-status {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .cycle-pill {
+      background: rgba(115,0,24,.08);
+      color: var(--wine);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .cycle-controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .cycle-controls input {
+      width: 100%;
+      border: 1px solid rgba(53,44,40,.12);
+      background: rgba(255,255,255,.85);
+      color: var(--text);
+      border-radius: 15px;
+      padding: 11px 12px;
+      font-size: 12.5px;
+      font-weight: 750;
+      outline: none;
+    }
+
+    .cycle-controls button {
+      border: 0;
+      background: var(--sage);
+      color: var(--cocoa);
+      font-weight: 950;
+      padding: 10px 12px;
+      border-radius: 15px;
+      font-size: 11px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+
+    .feature-grid {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .feature-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .feature-title {
+      font-size: 15px;
+      color: var(--cocoa);
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .feature-text {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .mini-toggle {
+      border: 0;
+      background: #f3ebe4;
+      color: var(--cocoa);
+      padding: 9px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .mini-toggle.on {
+      background: linear-gradient(135deg, var(--wine), var(--terracotta));
+      color: var(--white);
+      box-shadow: 0 8px 16px rgba(115,0,24,.16);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 16px;
+      background: rgba(255,255,255,.22);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 950;
+      padding: 11px 6px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .segmented button.active {
+      background: var(--white);
+      color: var(--wine);
+      box-shadow: 0 8px 18px rgba(53,44,40,.12);
+    }
+
+    .warning-box {
+      display: none;
+      margin-top: 10px;
+      background: rgba(115,0,24,.07);
+      border: 1px solid rgba(115,0,24,.12);
+      color: var(--cocoa);
+      padding: 12px;
+      border-radius: 17px;
+      font-size: 12.4px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .warning-box.show {
+      display: block;
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .choice-btn {
+      border: 0;
+      border-radius: 15px;
+      background: #f5efe9;
+      color: var(--cocoa);
+      font-size: 11.5px;
+      font-weight: 950;
+      padding: 11px 4px;
+      cursor: pointer;
+    }
+
+    .choice-btn.active {
+      background: linear-gradient(135deg, var(--terracotta), var(--mustard));
+      color: var(--white);
+    }
+
+    .mini-panel {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(223,229,216,.56);
+      border: 1px solid rgba(143,146,112,.18);
+      color: var(--cocoa);
+      font-size: 12.4px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .streak-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .streak-box {
+      background: #fbf8f5;
+      border: 1px solid rgba(53,44,40,.06);
+      border-radius: 18px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .streak-box strong {
+      display: block;
+      color: var(--wine);
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .streak-box span {
+      font-size: 10.5px;
+      color: var(--muted);
+      font-weight: 850;
+      line-height: 1.2;
+    }
+
+    .area-map {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .area-chip {
+      border-radius: 999px;
+      padding: 9px 10px;
+      background: #fbf8f5;
+      border: 1px solid rgba(53,44,40,.06);
+      color: var(--cocoa);
+      font-size: 11.5px;
+      font-weight: 900;
+    }
+
+    .minimal-card {
+      display: none;
+      background: linear-gradient(135deg, rgba(184,148,87,.16), rgba(223,229,216,.68));
+      border-radius: 22px;
+      padding: 14px;
+      border: 1px solid rgba(184,148,87,.18);
+      margin-bottom: 12px;
+    }
+
+    .minimal-card.show {
+      display: block;
+    }
+
+    .minimal-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--cocoa);
+    }
+
+    .minimal-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+
+    .backup-card {
+      background: linear-gradient(135deg, #fff, #fbf6f1);
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 12px;
+    }
+
+    .backup-title {
+      font-size: 15px;
+      color: var(--cocoa);
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .backup-text {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.48;
+      margin-bottom: 12px;
+    }
+
+    .backup-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .backup-btn {
+      border: 0;
+      background: #f3ebe4;
+      color: var(--cocoa);
+      border-radius: 18px;
+      padding: 13px 12px;
+      font-size: 12.5px;
+      font-weight: 950;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(53,44,40,.06);
+    }
+
+    .backup-btn.primary {
+      background: linear-gradient(135deg, var(--wine), var(--terracotta));
+      color: var(--white);
+      box-shadow: 0 8px 16px rgba(115,0,24,.18);
+    }
+
+    .backup-note {
+      margin-top: 10px;
+      display: none;
+      background: rgba(143,146,112,.13);
+      border: 1px solid rgba(143,146,112,.18);
+      color: var(--cocoa);
+      padding: 11px;
+      border-radius: 16px;
+      font-size: 12.2px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .backup-note.show {
+      display: block;
+    }
+
+    .hidden-file-input {
+      display: none;
+    }
+
+    .quick-rules {
+      background: #fbf8f5;
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid rgba(53,44,40,.06);
+      margin-bottom: 8px;
+    }
+
+    .rules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .rule {
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: var(--white);
+      border: 1px solid rgba(53,44,40,.06);
+      color: var(--cocoa);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.45;
+      padding: 8px 20px 24px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(53,44,40,.34);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 120;
+      padding: 18px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(92vw, 380px);
+      background:
+        radial-gradient(circle at top right, rgba(184,148,87,.25), transparent 28%),
+        linear-gradient(180deg, #fff, #fbf6f1);
+      border-radius: 32px;
+      padding: 22px 20px 18px;
+      box-shadow: 0 22px 50px rgba(53,44,40,.28);
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.85);
+      animation: modalPop .28s ease;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(.94) translateY(10px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 24px;
+      margin: 0 auto 14px;
+      background: linear-gradient(135deg, var(--wine), var(--terracotta));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 12px 24px rgba(115,0,24,.2);
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      color: var(--cocoa);
+      letter-spacing: -.02em;
+    }
+
+    .modal p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.52;
+      font-weight: 650;
+    }
+
+    .modal button {
+      margin-top: 18px;
+      width: 100%;
+      border: 0;
+      background: linear-gradient(135deg, var(--wine), var(--terracotta));
+      color: white;
+      border-radius: 18px;
+      padding: 13px;
+      font-size: 13px;
+      font-weight: 950;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(115,0,24,.18);
+    }
+
+    @media(max-width: 380px) {
+      .hero { padding: 22px 17px 48px; }
+      h1 { font-size: 25px; }
+      .content { padding: 0 12px 26px; }
+      .day { min-height: 70px; border-radius: 16px; }
+      .day strong { font-size: 17px; }
+      .period-card { padding: 14px; }
+      .zone { padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="phone">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="top-line">
+          <div class="mini-label">Skincare planner</div>
+          <div class="today-pill" id="todayPill">Hoje</div>
+        </div>
+
+        <h1>Rotina de Pele da Nath</h1>
+        <div class="hero-subtitle">
+          Seu calendário de rosto e corpo separado por manhã e noite, com checklist simples para seguir sem se perder.
+        </div>
+      </div>
+    </section>
+
+    <div class="content">
+      <section class="summary-card">
+        <div class="summary-head">
+          <div>
+            <div class="summary-title" id="summaryDay">Segunda-feira</div>
+            <div class="summary-sub" id="summaryTheme">Controle de cravos, barreira e corpo.</div>
+          </div>
+          <div class="progress-badge" id="progressText">0%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </section>
+
+      <section class="calendar-wrap">
+        <div class="calendar-title">
+          <span>Calendário semanal</span>
+          <span></span>
+        </div>
+        <div class="week" id="week"></div>
+      </section>
+
+      <section class="weather-card">
+        <div class="weather-head">
+          <div>
+            <div class="weather-title">🌦️ Clima e cuidado de hoje</div>
+            <div class="weather-status" id="weatherStatus">Consultando a previsão do tempo para adaptar os cuidados da pele...</div>
+          </div>
+          <button class="weather-btn" id="weatherBtn">Atualizar</button>
+        </div>
+        <div class="weather-status" id="weatherInsight">Se o navegador pedir localização, permita para receber recomendações mais certeiras. Sem localização, uso Curitiba como referência.</div>
+      </section>
+
+
+      <section class="cycle-card">
+        <div class="cycle-head">
+          <div>
+            <div class="cycle-title">🌙 Ciclo menstrual e pele</div>
+            <div class="cycle-status" id="cycleStatus">Calculando fase do ciclo...</div>
+          </div>
+          <div class="cycle-pill" id="cyclePill">Ciclo</div>
+        </div>
+        <div class="cycle-status" id="cycleInsight">
+          Considerando que seu ciclo começou em 20/04/2026 e costuma durar entre 30 e 32 dias.
+        </div>
+        <div class="cycle-controls">
+          <input type="date" id="cycleStartInput" />
+          <button id="cycleSaveBtn">Salvar início</button>
+        </div>
+      </section>
+
+      <section class="mode-card">
+        <div class="mode-head">
+          <strong id="modeTitle">Treino e suor</strong>
+        </div>
+        <div class="mode-text" id="trainingText">
+          Escolha o contexto do dia. Isso muda a rotina abaixo, não fica só como lembrete.
+        </div>
+        <div class="segmented">
+          <button id="workoutNoneBtn">Sem treino</button>
+          <button id="workoutBeforeBtn">Vou treinar</button>
+          <button id="workoutAfterBtn">Já treinei</button>
+        </div>
+      </section>
+
+      <section class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-head">
+            <div>
+              <div class="feature-title">🔥 Pele sensível hoje</div>
+              <div class="feature-text">Use quando a pele estiver ardendo, muito vermelha, repuxando ou sensibilizada. Isso remove os ativos da rotina e troca por barreira.</div>
+            </div>
+            <button class="mini-toggle" id="sensitiveToggle">Ativar</button>
+          </div>
+          <div class="warning-box" id="sensitiveBox">
+            Hoje é dia de preservar a barreira. A rotina abaixo foi adaptada para pausar P-Tiox, salicílico e Retrinal.
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-head">
+            <div>
+              <div class="feature-title">🧳 Rotina mínima</div>
+              <div class="feature-text">Para dias corridos, viagem ou cansaço. Isso simplifica a rotina abaixo para o essencial.</div>
+            </div>
+            <button class="mini-toggle" id="minimalToggle">Ativar</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="minimal-card" id="minimalCard">
+        <h3>Rotina mínima de hoje</h3>
+        <ul>
+          <li>Manhã: limpar, Sensibio AR+ e protetor Adcos.</li>
+          <li>Corpo: Ureadin nas áreas ásperas e Pink Cheeks se houver atrito.</li>
+          <li>Noite: limpar, Sensibio AR+ e Pigmentbio se a região estiver confortável.</li>
+          <li>Se a pele estiver sensível, não use ácidos ou Retrinal.</li>
+        </ul>
+      </section>
+
+      <h2 class="section-title">Rotina do dia</h2>
+
+      <section class="period-card">
+        <div class="period-head">
+          <div class="period-title-wrap">
+            <div class="icon morning">☀️</div>
+            <div>
+              <div class="period-title">Manhã</div>
+              <div class="period-subtitle" id="morningNote"></div>
+            </div>
+          </div>
+          <button class="mark-btn" onclick="markPeriod('morning')">Marcar manhã</button>
+        </div>
+
+        <div class="zone face">
+          <div class="zone-head">
+            <div class="zone-title">🙂 Rosto de manhã</div>
+            <div class="zone-count" id="morningFaceCount">0 passos</div>
+          </div>
+          <div class="items" id="morningFaceItems"></div>
+        </div>
+
+        <div class="zone body">
+          <div class="zone-head">
+            <div class="zone-title">🧴 Corpo de manhã</div>
+            <div class="zone-count" id="morningBodyCount">0 passos</div>
+          </div>
+          <div class="items" id="morningBodyItems"></div>
+        </div>
+      </section>
+
+      <section class="period-card">
+        <div class="period-head">
+          <div class="period-title-wrap">
+            <div class="icon night">🌙</div>
+            <div>
+              <div class="period-title">Noite</div>
+              <div class="period-subtitle" id="nightNote"></div>
+            </div>
+          </div>
+          <button class="mark-btn" onclick="markPeriod('night')">Marcar noite</button>
+        </div>
+
+        <div class="zone face">
+          <div class="zone-head">
+            <div class="zone-title">🙂 Rosto à noite</div>
+            <div class="zone-count" id="nightFaceCount">0 passos</div>
+          </div>
+          <div class="items" id="nightFaceItems"></div>
+        </div>
+
+        <div class="zone body">
+          <div class="zone-head">
+            <div class="zone-title">🧴 Corpo à noite</div>
+            <div class="zone-count" id="nightBodyCount">0 passos</div>
+          </div>
+          <div class="items" id="nightBodyItems"></div>
+        </div>
+      </section>
+
+      <h2 class="section-title">Check-in e evolução</h2>
+
+      <section class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-title">🪞 Check-in rápido da pele</div>
+          <div class="feature-text">Marque como a pele está hoje para entender padrões com clima, treino e ciclo.</div>
+
+          <div class="mini-panel">Vermelhidão</div>
+          <div class="choice-row" id="rednessChoices"></div>
+
+          <div class="mini-panel">Oleosidade</div>
+          <div class="choice-row" id="oilChoices"></div>
+
+          <div class="mini-panel">Cravos e poros</div>
+          <div class="choice-row" id="blackheadChoices"></div>
+
+          <div class="mini-panel" id="checkinInsight">Faça seu check-in para receber um insight do dia.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-title">📈 Evolução da semana</div>
+          <div class="feature-text">Um resumo simples para reforçar constância, não perfeição.</div>
+          <div class="streak-grid">
+            <div class="streak-box"><strong id="completedDays">0</strong><span>dias completos</span></div>
+            <div class="streak-box"><strong id="waterDays">0</strong><span>dias com água registrada</span></div>
+            <div class="streak-box"><strong id="sunscreenDays">0</strong><span>dias com protetor</span></div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-title">🗺️ Mapa de áreas de cuidado</div>
+          <div class="feature-text">Produtos do dia por região, para não confundir rosto e corpo.</div>
+          <div class="area-map" id="areaMap"></div>
+        </div>
+      </section>
+
+      <h2 class="section-title">Água, alimentação e treino</h2>
+
+      <section class="dashboard">
+        <div class="insight">
+          <h3>💧 Água do dia</h3>
+          <p>Meta mínima: <strong>2L por dia</strong>. Escolha apenas uma opção para registrar quanto você tomou no dia. O ideal, pelo seu treino e rotina, é tentar chegar mais perto de 2,5L a 3L.</p>
+          <div class="water-grid" id="waterGrid"></div>
+          <div class="water-alert" id="waterAlert">
+            Abaixo de 2L ainda não é o ideal. Água ajuda na barreira da pele, no viço, na recuperação do treino, no ressecamento do outono/inverno e até na tolerância da pele aos ativos.
+          </div>
+        </div>
+
+        <div class="insight">
+          <h3>🥗 Alimentação do dia</h3>
+          <p id="foodTip"></p>
+        </div>
+
+        <div class="insight">
+          <h3>🏃‍♀️ Treino e pele</h3>
+          <p id="workoutTip"></p>
+        </div>
+
+        <div class="insight">
+          <h3>🌿 Insight da rotina de pele</h3>
+          <p id="skinTip"></p>
+        </div>
+      </section>
+
+      <h2 class="section-title">Regras rápidas</h2>
+
+      <section class="quick-rules">
+        <div class="rules">
+          <div class="rule">P-Tiox segunda, quarta e sexta de manhã</div>
+          <div class="rule">Salicílico segunda e quinta à noite</div>
+          <div class="rule">Retrinal quarta à noite</div>
+          <div class="rule">Sensibio AR+ todos os dias</div>
+          <div class="rule">Ureadin todos os dias no corpo</div>
+          <div class="rule">Pigmentbio entre as pernas à noite</div>
+          <div class="rule">Bio-Oil segunda, quarta, sexta e domingo</div>
+          <div class="rule">Pink Cheeks sempre que houver atrito</div>
+        </div>
+
+        <button class="reset" onclick="resetDay()">🧹 Limpar marcações deste dia</button>
+      </section>
+
+
+      <h2 class="section-title">Sincronização</h2>
+
+      <section class="cloud-card">
+        <div class="cloud-title">☁️ Sincronização na nuvem</div>
+        <div class="cloud-text" id="cloudStatus">
+          Conectando ao Supabase para salvar seus dados na nuvem. O IndexedDB continua como backup local.
+        </div>
+        <div class="cloud-pill" id="cloudPill">Status: iniciando</div>
+      </section>
+
+      <h2 class="section-title">Backup e dados</h2>
+
+      <section class="backup-card">
+        <div class="backup-title">💾 Exportar e restaurar dados</div>
+        <div class="backup-text">
+          Use essa área só quando quiser guardar um backup, trocar de celular, abrir em outro navegador ou analisar sua evolução em planilha.
+        </div>
+
+        <div class="backup-grid">
+          <button class="backup-btn primary" id="exportBackupBtn">Exportar backup completo</button>
+          <button class="backup-btn" id="importBackupBtn">Importar backup</button>
+          <button class="backup-btn" id="exportCsvBtn">Exportar histórico para planilha</button>
+        </div>
+
+        <input class="hidden-file-input" type="file" id="backupFileInput" accept="application/json,.json" />
+
+        <div class="backup-note" id="backupNote">
+          Backup pronto.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      Se a pele arder, pinicar, descamar ou ficar muito vermelha, pause os ativos e mantenha apenas limpeza suave, Sensibio AR+ e protetor por alguns dias.
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-icon">🤎</div>
+      <h2>Rotina concluída</h2>
+      <p id="modalText">
+        Você cuidou de você hoje. Um passo de cada vez também transforma a pele, o corpo e a forma como você se sente.
+      </p>
+      <button onclick="closeModal()">Fechar e seguir cuidando de mim</button>
+    </div>
+  </div>
+
+  <script>
+    const routine = [
+      {
+        id: "seg",
+        abbr: "Seg",
+        number: "1",
+        day: "Segunda-feira",
+        theme: "Controle de cravos, barreira e corpo.",
+        morningNote: "Comece pelo rosto, depois corpo. Hoje tem P-Tiox de manhã.",
+        nightNote: "À noite tem salicílico no rosto e tratamento corporal completo.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Massageie de leve e enxágue com água fria ou morna. Nada de água quente."],
+          ["Aplicar SkinCeuticals P-Tiox", "Camada fina no rosto, evitando passar se a pele estiver ardendo."],
+          ["Aplicar Bioderma Sensibio AR+ Crem", "Hidratação calmante para rosácea e barreira da pele."],
+          ["Finalizar com protetor solar Adcos", "Mesmo em casa, principalmente se ficar perto de janela."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Passe nos braços e bumbum, focando nas bolinhas de queratina."],
+          ["Aplicar Pink Cheeks se houver atrito", "Use entre as pernas antes de caminhar, sair ou treinar."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Remova oleosidade, suor e protetor sem esfregar."],
+          ["Aplicar Etat Pur Salicylic Acid 2%", "Use somente em nariz, queixo, testa e áreas com cravos.", "aplicação localizada"],
+          ["Finalizar com Sensibio AR+ Crem", "Hidrate para reduzir risco de irritação."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Foco nas manchas escuras por atrito. Não use se estiver assado."],
+          ["Aplicar Bio-Oil na barriga", "Massageie nas estrias por 2 a 3 minutos."]
+        ],
+        food: "Como hoje tem salicílico à noite, priorize uma alimentação menos inflamatória: proteína, vegetais, frutas e boas fontes de gordura. Se a rosácea estiver ativa, observe pimenta, álcool, bebidas muito quentes e excesso de açúcar.",
+        workout: "Se treinar, limpe o suor do rosto depois, evite roupa úmida por muito tempo e use Pink Cheeks nas áreas de atrito. À noite, não aplique salicílico em pele irritada pelo suor ou calor.",
+        skin: "Hoje tem salicílico. Use só nas áreas de cravo, porque tratar demais uma pele com rosácea pode virar irritação."
+      },
+      {
+        id: "ter",
+        abbr: "Ter",
+        number: "2",
+        day: "Terça-feira",
+        theme: "Recuperação de barreira.",
+        morningNote: "Manhã simples para acalmar e proteger.",
+        nightNote: "Noite sem ácidos e sem retinal. Só limpeza e barreira.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Se acordar com a pele sensível, use pouca quantidade ou lave só com água."],
+          ["Aplicar Sensibio AR+ Crem", "Foco em hidratar, acalmar e fortalecer a barreira."],
+          ["Finalizar com protetor solar Adcos", "Protetor também ajuda a controlar manchas."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços e bumbum todos os dias para textura e bolinhas."],
+          ["Aplicar Pink Cheeks se houver atrito", "Use antes de sair, caminhar ou treinar."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Sem bucha, sem escovinha e sem atrito."],
+          ["Aplicar Sensibio AR+ Crem", "Noite de recuperação total da pele."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Use se a pele estiver íntegra, sem assadura ou ardência."]
+        ],
+        food: "Hoje é dia de barreira, então vale manter refeições estáveis: proteína, fibras, água e vegetais. A pele sensível costuma agradecer quando o corpo não está em modo inflamação.",
+        workout: "Depois de treinar, troque a roupa úmida rápido. Isso ajuda o bumbum e as áreas de atrito a não inflamarem.",
+        skin: "Hoje é descanso. A pele melhora quando você alterna ativos com noites de barreira."
+      },
+      {
+        id: "qua",
+        abbr: "Qua",
+        number: "3",
+        day: "Quarta-feira",
+        theme: "Dia de retinal com cautela.",
+        morningNote: "Manhã com P-Tiox, hidratação e proteção.",
+        nightNote: "À noite tem Retrinal. Use pouco e faça sanduíche de hidratação.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza suave, sem atrito."],
+          ["Aplicar SkinCeuticals P-Tiox", "Use se a pele estiver confortável e sem ardência."],
+          ["Aplicar Sensibio AR+ Crem", "Camada calmante."],
+          ["Finalizar com protetor solar Adcos", "Essencial na rotina com retinal."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços, bumbum e áreas ásperas."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Seque com toalha macia, encostando, sem esfregar."],
+          ["Aplicar camada fina de Sensibio AR+ Crem", "Primeira camada do sanduíche para proteger a barreira."],
+          ["Aplicar Avène Retrinal", "Quantidade de ervilha para o rosto, evitando canto do nariz, olhos e áreas muito vermelhas.", "quantidade pequena"],
+          ["Finalizar com mais Sensibio AR+ Crem", "Use uma segunda camada fina se sentir necessidade de conforto."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Manter o tratamento das manchas se a região estiver sem irritação."],
+          ["Aplicar Bio-Oil na barriga", "Massageie nas estrias com calma."]
+        ],
+        food: "Como hoje tem retinal, ajude a pele de dentro para fora: antioxidantes, proteína e gorduras boas. Frutas, verduras, azeite, castanhas e uma boa hidratação fazem sentido.",
+        workout: "Se o treino esquentar muito o rosto, faça limpeza suave depois. Calor intenso pode ativar a rosácea. À noite, só use o Retrinal se a pele não estiver ardendo.",
+        skin: "Hoje é o dia mais delicado da rotina. Pouca quantidade, aplicação correta e protetor no dia seguinte."
+      },
+      {
+        id: "qui",
+        abbr: "Qui",
+        number: "4",
+        day: "Quinta-feira",
+        theme: "Segundo dia de cravos e poros.",
+        morningNote: "Manhã simples para não sobrecarregar.",
+        nightNote: "À noite repete salicílico localizado no rosto.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza delicada."],
+          ["Aplicar Sensibio AR+ Crem", "Acalmar e manter barreira."],
+          ["Finalizar com protetor solar Adcos", "Protetor diário."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços e bumbum."],
+          ["Aplicar Pink Cheeks se houver atrito", "Principalmente em dia de treino, caminhada ou roupa que encosta."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza noturna suave."],
+          ["Aplicar Etat Pur Salicylic Acid 2%", "Só onde tem cravos e poros mais evidentes.", "não aplicar nas bochechas sensíveis"],
+          ["Finalizar com Sensibio AR+ Crem", "Hidratação para equilibrar."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Evite se a região estiver assada, ardendo ou recém depilada."]
+        ],
+        food: "Como hoje volta o salicílico, tente evitar exageros que possam piorar vermelhidão. O objetivo é ajudar a pele a tratar cravos sem entrar em irritação.",
+        workout: "Se suar muito, banho morno e troca rápida de roupa ajudam a pele do corpo e do rosto. Evite salicílico em área que esteja ardida pelo treino.",
+        skin: "Hoje é manutenção de cravos. Não aumente a área de aplicação só porque a pele parece oleosa."
+      },
+      {
+        id: "sex",
+        abbr: "Sex",
+        number: "5",
+        day: "Sexta-feira",
+        theme: "Viço e recuperação.",
+        morningNote: "Manhã com P-Tiox, hidratação e proteção.",
+        nightNote: "Noite de barreira no rosto e cuidado corporal.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza leve."],
+          ["Aplicar SkinCeuticals P-Tiox", "Camada fina."],
+          ["Aplicar Sensibio AR+ Crem", "Hidratar e acalmar."],
+          ["Finalizar com protetor solar Adcos", "Não pular."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços e bumbum."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza sem atrito."],
+          ["Aplicar Sensibio AR+ Crem", "Noite de recuperação da barreira."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Use se a pele estiver confortável."],
+          ["Aplicar Bio-Oil na barriga", "Massageie nas estrias."]
+        ],
+        food: "Sexta pode ter mais exceções. Se for sair da rotina, tente compensar com água, proteína e não exagerar em álcool, açúcar e pimenta se sua rosácea costuma reagir.",
+        workout: "Finalize o treino com cuidado básico: limpar suor, hidratar e proteger áreas de atrito. Como hoje é noite de barreira, é um bom dia para recuperar.",
+        skin: "Hoje é dia de manter o resultado sem irritar. A consistência é o que transforma a pele."
+      },
+      {
+        id: "sab",
+        abbr: "Sáb",
+        number: "6",
+        day: "Sábado",
+        theme: "Rotina leve e observação.",
+        morningNote: "Manhã simples, estável e protetora.",
+        nightNote: "Noite sem ácidos e sem retinal.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza simples."],
+          ["Aplicar Sensibio AR+ Crem", "Hidratação calmante."],
+          ["Finalizar com protetor solar Adcos", "Mesmo em casa ou saindo pouco."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços e bumbum."],
+          ["Aplicar Pink Cheeks se houver atrito", "Antes de sair, caminhar ou treinar."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza delicada."],
+          ["Aplicar Sensibio AR+ Crem", "Noite sem ácido e sem retinal."]
+        ],
+        nightBody: [
+          ["Aplicar Pigmentbio entre as pernas", "Use se a região não estiver sensibilizada."]
+        ],
+        food: "Não precisa perfeição, precisa consistência. Água, proteína e uma boa refeição ajudam bastante, especialmente se tiver treino longo.",
+        workout: "Em treino longo, cuidado redobrado com atrito, suor, banho muito quente depois e hidratação. Pele cansada também precisa de recuperação.",
+        skin: "Hoje é dia de observar. Se a pele está menos vermelha e menos oleosa, a frequência está boa."
+      },
+      {
+        id: "dom",
+        abbr: "Dom",
+        number: "7",
+        day: "Domingo",
+        theme: "Descanso total da pele.",
+        morningNote: "Manhã de hidratação, calma e proteção.",
+        nightNote: "Fechamento da semana sem agressão.",
+        morningFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza suave."],
+          ["Aplicar Sensibio AR+ Crem", "Foco em barreira."],
+          ["Finalizar com protetor solar Adcos", "Protetor diário."]
+        ],
+        morningBody: [
+          ["Após o banho, aplicar Ureadin", "Braços e bumbum."]
+        ],
+        nightFace: [
+          ["Lavar com Bioderma Sensibio", "Limpeza leve."],
+          ["Aplicar Sensibio AR+ Crem", "Descanso total da pele."]
+        ],
+        nightBody: [
+          ["Aplicar Bio-Oil na barriga", "Massageie nas estrias."],
+          ["Aplicar Pigmentbio entre as pernas se estiver confortável", "Se estiver irritado, pause hoje."]
+        ],
+        food: "Domingo é ótimo para entrar na semana menos inflamada. Hidratação, refeição equilibrada e sono bom já fazem diferença.",
+        workout: "Se tiver treino, mantenha os cuidados de suor e atrito. Se for descanso, aproveite para recuperar também a pele.",
+        skin: "Descanso também é tratamento. A pele com rosácea precisa de respiro para tolerar melhor os ativos."
+      }
+    ];
+
+    const stateKey = "rotinaPeleNathV12Supabase";
+    const legacyStateKeys = ["rotinaPeleNathV9IndexedDB", "rotinaPeleNathV8", "rotinaPeleNathV7", "rotinaPeleNathV6", "rotinaPeleNathV5"];
+    const dbName = "RotinaPeleNathDB";
+    const dbVersion = 1;
+    const storeName = "appState";
+
+    const supabaseUrl = "https://mecvphldyzkdoztrxvie.supabase.co";
+    const supabaseKey = "sb_publishable_kPuZCDS3384iNK3BYki3kA_ZqeYI4uZ";
+    const supabaseAccessKey = "nath-skincare-2026";
+
+    let state = {};
+    let completedOnce = {};
+    let activeDay = getTodayIndex();
+    let cycleStartDate = "2026-04-20";
+    let dbInstance = null;
+    let dbUnavailable = false;
+    let supabaseProfile = null;
+    let supabaseOnline = false;
+    let saveTimer = null;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        if (!("indexedDB" in window)) {
+          dbUnavailable = true;
+          reject(new Error("IndexedDB não disponível neste navegador."));
+          return;
+        }
+
+        if (dbInstance) {
+          resolve(dbInstance);
+          return;
+        }
+
+        const request = indexedDB.open(dbName, dbVersion);
+
+        request.onupgradeneeded = event => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName, { keyPath: "key" });
+          }
+        };
+
+        request.onsuccess = event => {
+          dbInstance = event.target.result;
+          resolve(dbInstance);
+        };
+
+        request.onerror = () => {
+          dbUnavailable = true;
+          reject(request.error);
+        };
+      });
+    }
+
+    async function dbGet(key, fallback = null) {
+      if (dbUnavailable) return fallback;
+
+      try {
+        const db = await openDB();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, "readonly");
+          const store = tx.objectStore(storeName);
+          const request = store.get(key);
+
+          request.onsuccess = () => {
+            resolve(request.result ? request.result.value : fallback);
+          };
+
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        dbUnavailable = true;
+        return fallback;
+      }
+    }
+
+    async function dbSet(key, value) {
+      if (dbUnavailable) {
+        localStorage.setItem(key, JSON.stringify(value));
+        return;
+      }
+
+      try {
+        const db = await openDB();
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, "readwrite");
+          const store = tx.objectStore(storeName);
+          store.put({ key, value, updatedAt: new Date().toISOString() });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (error) {
+        dbUnavailable = true;
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    }
+
+    async function loadInitialState() {
+      const indexedState = await dbGet(stateKey, null);
+
+      if (indexedState && typeof indexedState === "object") {
+        state = indexedState;
+        return;
+      }
+
+      // Migração automática das versões antigas em localStorage para IndexedDB.
+      for (const key of legacyStateKeys) {
+        const legacy = localStorage.getItem(key);
+        if (legacy) {
+          try {
+            state = JSON.parse(legacy) || {};
+            await dbSet(stateKey, state);
+            return;
+          } catch (error) {
+            state = {};
+          }
+        }
+      }
+
+      const fallback = localStorage.getItem(stateKey);
+      if (fallback) {
+        try {
+          state = JSON.parse(fallback) || {};
+          await dbSet(stateKey, state);
+          return;
+        } catch (error) {
+          state = {};
+        }
+      }
+
+      state = {};
+    }
+
+    async function loadCycleStartDate() {
+      const indexedCycle = await dbGet("cycleStartDate", null);
+      if (indexedCycle) {
+        cycleStartDate = indexedCycle;
+        return;
+      }
+
+      const legacyCycle = localStorage.getItem("rotinaPeleNathCycleStart");
+      if (legacyCycle) {
+        cycleStartDate = legacyCycle;
+        await dbSet("cycleStartDate", cycleStartDate);
+      }
+    }
+
+    const week = document.getElementById("week");
+    const summaryDay = document.getElementById("summaryDay");
+    const summaryTheme = document.getElementById("summaryTheme");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
+    const morningNote = document.getElementById("morningNote");
+    const nightNote = document.getElementById("nightNote");
+
+    const morningFaceItems = document.getElementById("morningFaceItems");
+    const morningBodyItems = document.getElementById("morningBodyItems");
+    const nightFaceItems = document.getElementById("nightFaceItems");
+    const nightBodyItems = document.getElementById("nightBodyItems");
+
+    const morningFaceCount = document.getElementById("morningFaceCount");
+    const morningBodyCount = document.getElementById("morningBodyCount");
+    const nightFaceCount = document.getElementById("nightFaceCount");
+    const nightBodyCount = document.getElementById("nightBodyCount");
+
+    const foodTip = document.getElementById("foodTip");
+    const workoutTip = document.getElementById("workoutTip");
+    const skinTip = document.getElementById("skinTip");
+    const waterGrid = document.getElementById("waterGrid");
+    const waterAlert = document.getElementById("waterAlert");
+    const modeTitle = document.getElementById("modeTitle");
+    const trainingText = document.getElementById("trainingText");
+    const todayPill = document.getElementById("todayPill");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalText = document.getElementById("modalText");
+    const weatherStatus = document.getElementById("weatherStatus");
+    const weatherInsight = document.getElementById("weatherInsight");
+    const weatherBtn = document.getElementById("weatherBtn");
+    const sensitiveToggle = document.getElementById("sensitiveToggle");
+    const sensitiveBox = document.getElementById("sensitiveBox");
+    const workoutNoneBtn = document.getElementById("workoutNoneBtn");
+    const workoutBeforeBtn = document.getElementById("workoutBeforeBtn");
+    const workoutAfterBtn = document.getElementById("workoutAfterBtn");
+    const minimalToggle = document.getElementById("minimalToggle");
+    const minimalCard = document.getElementById("minimalCard");
+    const rednessChoices = document.getElementById("rednessChoices");
+    const oilChoices = document.getElementById("oilChoices");
+    const blackheadChoices = document.getElementById("blackheadChoices");
+    const checkinInsight = document.getElementById("checkinInsight");
+    const completedDays = document.getElementById("completedDays");
+    const waterDays = document.getElementById("waterDays");
+    const sunscreenDays = document.getElementById("sunscreenDays");
+    const areaMap = document.getElementById("areaMap");
+    const cycleStatus = document.getElementById("cycleStatus");
+    const cycleInsight = document.getElementById("cycleInsight");
+    const cyclePill = document.getElementById("cyclePill");
+    const cycleStartInput = document.getElementById("cycleStartInput");
+    const cycleSaveBtn = document.getElementById("cycleSaveBtn");
+    const exportBackupBtn = document.getElementById("exportBackupBtn");
+    const importBackupBtn = document.getElementById("importBackupBtn");
+    const exportCsvBtn = document.getElementById("exportCsvBtn");
+    const backupFileInput = document.getElementById("backupFileInput");
+    const backupNote = document.getElementById("backupNote");
+    const cloudStatus = document.getElementById("cloudStatus");
+    const cloudPill = document.getElementById("cloudPill");
+
+    function getTodayIndex() {
+      const jsDay = new Date().getDay();
+      const map = {1:0, 2:1, 3:2, 4:3, 5:4, 6:5, 0:6};
+      return map[jsDay];
+    }
+
+    function save() {
+      // Mantém o estado em memória para resposta rápida, salva localmente e agenda sincronização na nuvem.
+      dbSet(stateKey, state);
+      scheduleSupabaseSave();
+    }
+
+    function dayState(dayId) {
+      if (!state[dayId]) {
+        state[dayId] = {
+          checks: {},
+          water: [false, false, false, false],
+          modalShown: false,
+          sensitive: false,
+          workoutMode: "none",
+          minimal: false,
+          checkin: { redness: "", oil: "", blackheads: "" }
+        };
+      }
+      return state[dayId];
+    }
+
+    function setTodayPill() {
+      const days = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+      const today = days[new Date().getDay()];
+      todayPill.innerText = `Hoje é ${today}`;
+    }
+
+    function totalTasks(day) {
+      // Água conta como 1 único item concluído no dia.
+      // A pessoa escolhe a quantidade total ingerida, não precisa marcar várias opções.
+      const effective = getEffectiveRoutine(day);
+      return effective.morningFace.length + effective.morningBody.length + effective.nightFace.length + effective.nightBody.length + 1;
+    }
+
+    function currentProgress(day) {
+      const st = dayState(day.id);
+      const effective = getEffectiveRoutine(day);
+      const blocks = ["morningFace", "morningBody", "nightFace", "nightBody"];
+      let checks = 0;
+
+      blocks.forEach(block => {
+        effective[block].forEach((_, index) => {
+          if (st.checks[`${block}_${index}`]) checks++;
+        });
+      });
+
+      const water = st.water.some(Boolean) ? 1 : 0;
+      const total = totalTasks(day);
+      const pct = Math.round(((checks + water) / total) * 100);
+      return { checks, water, total, pct };
+    }
+
+    function isDayComplete(day) {
+      return currentProgress(day).pct >= 100;
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove("show");
+    }
+
+    function showCompletionModal(day) {
+      const phrases = [
+        "Você cuidou de você hoje. Um passo de cada vez também transforma a pele, o corpo e a forma como você se sente.",
+        "Rotina feita. Isso é autocuidado de verdade: aparecer por você mesmo nos detalhes pequenos.",
+        "Você concluiu tudo hoje. Sua pele agradece a constância, e você merece esse carinho.",
+        "Mais um dia cuidando de você com calma e intenção. É assim que o resultado aparece."
+      ];
+      const idx = new Date().getDay() % phrases.length;
+      modalText.innerText = phrases[idx];
+      modalOverlay.classList.add("show");
+
+      const st = dayState(day.id);
+      st.modalShown = true;
+      save();
+    }
+
+    function renderWeek() {
+      week.innerHTML = "";
+      routine.forEach((day, index) => {
+        const btn = document.createElement("button");
+        btn.className = "day";
+        if (index === activeDay) btn.classList.add("active");
+        if (isDayComplete(day)) btn.classList.add("done");
+
+        btn.innerHTML = `
+          <small>${day.abbr}</small>
+          <strong>${day.number}</strong>
+          <div class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        `;
+
+        btn.onclick = () => {
+          activeDay = index;
+          render(false);
+        };
+
+        week.appendChild(btn);
+      });
+    }
+
+    function renderItems(container, items, blockName, dayId) {
+      container.innerHTML = "";
+      const st = dayState(dayId);
+
+      items.forEach((item, index) => {
+        const key = `${blockName}_${index}`;
+        const checked = !!st.checks[key];
+
+        const row = document.createElement("div");
+        row.className = "item";
+        if (checked) row.classList.add("checked");
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = checked;
+        input.id = `${dayId}_${key}`;
+
+        input.onchange = () => {
+          st.checks[key] = input.checked;
+          if (!input.checked) st.modalShown = false;
+          save();
+          render(true);
+        };
+
+        const label = document.createElement("label");
+        label.setAttribute("for", `${dayId}_${key}`);
+        label.innerHTML = `
+          <div class="item-title">${index + 1}. ${item[0]}</div>
+          <div class="item-desc">${item[1]}</div>
+          ${item[2] ? `<span class="pill">${item[2]}</span>` : ""}
+        `;
+
+        row.appendChild(input);
+        row.appendChild(label);
+        container.appendChild(row);
+      });
+    }
+
+    function waterAmountFromState(st) {
+      const amounts = [0.5, 1, 2, 3];
+      let max = 0;
+      st.water.forEach((value, index) => {
+        if (value) max = Math.max(max, amounts[index]);
+      });
+      return max;
+    }
+
+    function renderWater(dayId) {
+      const st = dayState(dayId);
+      const labels = ["500 ml", "1 L", "2 L", "3 L"];
+      const amounts = [0.5, 1, 2, 3];
+      waterGrid.innerHTML = "";
+
+      st.water.forEach((value, index) => {
+        const btn = document.createElement("button");
+        btn.className = "water";
+        if (value) btn.classList.add("on");
+        btn.innerText = labels[index];
+
+        btn.onclick = () => {
+          st.water = [false, false, false, false];
+          st.water[index] = true;
+          if (amounts[index] < 2) {
+            waterAlert.classList.add("show");
+          }
+          save();
+          render(true);
+        };
+
+        waterGrid.appendChild(btn);
+      });
+
+      const currentAmount = waterAmountFromState(st);
+      waterAlert.classList.toggle("show", currentAmount > 0 && currentAmount < 2);
+    }
+
+    function updateProgress(day, fromInteraction) {
+      const progress = currentProgress(day);
+      const st = dayState(day.id);
+      progressText.innerText = `${progress.pct}%`;
+      progressFill.style.width = `${progress.pct}%`;
+
+      if (progress.pct >= 100 && fromInteraction && !st.modalShown) {
+        showCompletionModal(day);
+      }
+
+      if (progress.pct < 100 && st.modalShown) {
+        st.modalShown = false;
+        save();
+      }
+    }
+
+    function cloneItems(items) {
+      return items.map(item => [...item]);
+    }
+
+    function getEffectiveRoutine(day) {
+      const st = dayState(day.id);
+      const mode = st.workoutMode || "none";
+      let effective = {
+        morningNote: day.morningNote,
+        nightNote: day.nightNote,
+        morningFace: cloneItems(day.morningFace),
+        morningBody: cloneItems(day.morningBody),
+        nightFace: cloneItems(day.nightFace),
+        nightBody: cloneItems(day.nightBody),
+        food: day.food,
+        workout: day.workout,
+        skin: day.skin
+      };
+
+      if (st.sensitive) {
+        effective.morningNote = "Pele sensível ativada: rotina adaptada para acalmar, hidratar e proteger.";
+        effective.nightNote = "Noite de barreira. Sem salicílico, sem Retrinal e sem P-Tiox.";
+        effective.morningFace = [
+          ["Lavar com Bioderma Sensibio ou só água", "Escolha o mais confortável. Não esfregue e não use água quente."],
+          ["Aplicar Bioderma Sensibio AR+ Crem", "Camada generosa para acalmar e reparar a barreira."],
+          ["Finalizar com protetor solar Adcos", "Mesmo em casa, mantenha proteção contra luz e manchas."]
+        ];
+        effective.nightFace = [
+          ["Lavar com Bioderma Sensibio", "Limpeza curta, suave e com água morna ou fria."],
+          ["Aplicar Bioderma Sensibio AR+ Crem", "Noite de recuperação total da barreira."]
+        ];
+        effective.skin = "Pele sensível ativada. A prioridade hoje é reduzir irritação e recuperar barreira. Ativos foram removidos da rotina do dia.";
+      }
+
+      if (st.minimal) {
+        effective.morningNote = "Rotina mínima ativada: poucos passos, só o essencial.";
+        effective.nightNote = "Noite mínima para não abandonar o cuidado mesmo em dia corrido.";
+        effective.morningFace = [
+          ["Lavar com Bioderma Sensibio", "Ou só água se a pele estiver sensível."],
+          ["Aplicar Sensibio AR+ Crem", "Hidratação calmante."],
+          ["Aplicar protetor solar Adcos", "Passo essencial do dia."]
+        ];
+        effective.morningBody = [
+          ["Aplicar Ureadin", "Braços e bumbum, mesmo que seja rápido."],
+          ["Aplicar Pink Cheeks se houver atrito", "Use entre as pernas antes de sair ou caminhar."]
+        ];
+        effective.nightFace = [
+          ["Lavar com Bioderma Sensibio", "Limpeza suave."],
+          ["Aplicar Sensibio AR+ Crem", "Fechar o dia com barreira."]
+        ];
+        effective.nightBody = [
+          ["Aplicar Pigmentbio entre as pernas se estiver confortável", "Se estiver assado ou ardendo, pule."]
+        ];
+        effective.skin = "Rotina mínima ativada. Hoje a meta é manter consistência, não perfeição.";
+      }
+
+      if (mode === "before") {
+        if (!effective.morningBody.some(i => i[0].includes("Pink Cheeks"))) {
+          effective.morningBody.push(["Aplicar Pink Cheeks antes do treino", "Protege as áreas de atrito entre as pernas."]);
+        }
+        effective.morningBody.push(["Separar troca de roupa seca", "Evita ficar com tecido úmido depois do treino, principalmente no bumbum e entre as pernas."]);
+        effective.workout = "Como você vai treinar, a rotina foi ajustada para prevenir atrito e suor parado. Depois do treino, lave ou enxágue o rosto, seque sem esfregar e troque a roupa úmida.";
+      }
+
+      if (mode === "after") {
+        effective.morningFace.push(
+          ["Pós-treino: limpar suor do rosto", "Use água ou Bioderma Sensibio. Não deixe suor parado na pele."],
+          ["Pós-treino: hidratar se repuxar", "Aplique Sensibio AR+ se a pele ficou quente, vermelha ou ressecada."]
+        );
+        effective.morningBody.push(
+          ["Pós-treino: trocar roupa úmida", "Ajuda a evitar bolinhas, atrito e irritação no bumbum e entre as pernas."],
+          ["Pós-treino: reaplicar Pink Cheeks se houver atrito", "Use se ainda for caminhar ou ficar com roupa que encosta."]
+        );
+        if (!st.sensitive && !st.minimal) {
+          effective.nightFace = effective.nightFace.map(item => {
+            if (item[0].includes("Salicylic") || item[0].includes("Retrinal")) {
+              return [item[0], item[1] + " Se a pele ficou ardendo ou muito vermelha depois do treino, pule esse ativo hoje.", item[2] || "atenção pós-treino"];
+            }
+            return item;
+          });
+        }
+        effective.workout = "Como você já treinou, a rotina recebeu passos pós-treino. O foco é tirar suor, reduzir atrito e não aplicar ativos se a pele estiver aquecida ou irritada.";
+      }
+
+      return effective;
+    }
+
+    function renderTrainingMode(day) {
+      const st = dayState(day.id);
+      const mode = st.workoutMode || "none";
+
+      workoutNoneBtn.classList.toggle("active", mode === "none");
+      workoutBeforeBtn.classList.toggle("active", mode === "before");
+      workoutAfterBtn.classList.toggle("active", mode === "after");
+
+      if (mode === "before") {
+        modeTitle.innerText = "Treino planejado";
+        trainingText.innerText = "A rotina abaixo incluiu prevenção de atrito e lembretes para não deixar suor parado depois.";
+      } else if (mode === "after") {
+        modeTitle.innerText = "Pós-treino ativado";
+        trainingText.innerText = "A rotina abaixo incluiu passos de limpeza de suor, troca de roupa e cautela com ativos.";
+      } else {
+        modeTitle.innerText = "Sem treino registrado";
+        trainingText.innerText = "Escolha se vai treinar ou se já treinou para adaptar a rotina de pele e corpo.";
+      }
+    }
+
+    function setWorkoutMode(mode) {
+      const day = routine[activeDay];
+      const st = dayState(day.id);
+      st.workoutMode = mode;
+      save();
+      render(false);
+    }
+
+    workoutNoneBtn.onclick = () => setWorkoutMode("none");
+    workoutBeforeBtn.onclick = () => setWorkoutMode("before");
+    workoutAfterBtn.onclick = () => setWorkoutMode("after");
+
+    function renderAdaptiveModes(day) {
+      const st = dayState(day.id);
+
+      sensitiveToggle.classList.toggle("on", !!st.sensitive);
+      sensitiveToggle.innerText = st.sensitive ? "Ativado" : "Ativar";
+      sensitiveBox.classList.toggle("show", !!st.sensitive);
+
+      minimalToggle.classList.toggle("on", !!st.minimal);
+      minimalToggle.innerText = st.minimal ? "Ativado" : "Ativar";
+      minimalCard.classList.toggle("show", !!st.minimal);
+    }
+
+    function toggleDayMode(mode) {
+      const day = routine[activeDay];
+      const st = dayState(day.id);
+      st[mode] = !st[mode];
+      save();
+      render(false);
+    }
+
+    sensitiveToggle.onclick = () => toggleDayMode("sensitive");
+    minimalToggle.onclick = () => toggleDayMode("minimal");
+
+    function renderChoices(container, field, label) {
+      const day = routine[activeDay];
+      const st = dayState(day.id);
+      if (!st.checkin) st.checkin = { redness: "", oil: "", blackheads: "" };
+      const options = ["Baixo", "Médio", "Alto"];
+      container.innerHTML = "";
+
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        if (st.checkin[field] === opt) btn.classList.add("active");
+        btn.innerText = opt;
+        btn.onclick = () => {
+          st.checkin[field] = st.checkin[field] === opt ? "" : opt;
+          save();
+          render(false);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderCheckin(day) {
+      const st = dayState(day.id);
+      if (!st.checkin) st.checkin = { redness: "", oil: "", blackheads: "" };
+
+      renderChoices(rednessChoices, "redness", "Vermelhidão");
+      renderChoices(oilChoices, "oil", "Oleosidade");
+      renderChoices(blackheadChoices, "blackheads", "Cravos");
+
+      const r = st.checkin.redness;
+      const o = st.checkin.oil;
+      const b = st.checkin.blackheads;
+      let insight = "Faça seu check-in para receber um insight do dia.";
+
+      if (r === "Alto") {
+        insight = "Vermelhidão alta: hoje vale ativar 'pele sensível', evitar banho quente, não usar ativos em áreas vermelhas e priorizar barreira.";
+      } else if (o === "Alto" && b === "Alto") {
+        insight = "Oleosidade e cravos altos: mantenha o salicílico apenas nos pontos combinados. Não aumente a frequência para não irritar a rosácea.";
+      } else if (o === "Baixo" && r !== "Alto") {
+        insight = "Oleosidade baixa: a pele pode estar mais seca ou sensível. Hidrate bem e observe se o clima está frio ou seco.";
+      } else if (r || o || b) {
+        insight = "Check-in registrado. Observe se esse padrão se repete com ciclo, clima ou treino para ajustar a rotina com mais inteligência.";
+      }
+
+      checkinInsight.innerText = insight;
+    }
+
+    function renderWeeklyProgress() {
+      let complete = 0;
+      let water = 0;
+      let sunscreen = 0;
+
+      routine.forEach(day => {
+        const st = dayState(day.id);
+        if (isDayComplete(day)) complete++;
+        if (st.water.some(Boolean)) water++;
+
+        const effective = getEffectiveRoutine(day);
+        const sunscreenKey = effective.morningFace.findIndex(item => item[0].toLowerCase().includes("protetor"));
+        if (sunscreenKey >= 0 && st.checks[`morningFace_${sunscreenKey}`]) sunscreen++;
+      });
+
+      completedDays.innerText = complete;
+      waterDays.innerText = water;
+      sunscreenDays.innerText = sunscreen;
+    }
+
+    function renderAreaMap(day, effective) {
+      const chips = [];
+      chips.push("🙂 Rosto: limpeza + hidratação");
+      if (effective.morningFace.some(i => i[0].toLowerCase().includes("protetor"))) chips.push("🛡️ Rosto: protetor Adcos");
+      if (effective.morningFace.some(i => i[0].includes("P-Tiox"))) chips.push("✨ Rosto: P-Tiox");
+      if (effective.nightFace.some(i => i[0].includes("Salicylic"))) chips.push("🎯 Cravos: salicílico localizado");
+      if (effective.nightFace.some(i => i[0].includes("Retrinal"))) chips.push("🌙 Rosto: Retrinal");
+      if (effective.morningBody.some(i => i[0].includes("Ureadin"))) chips.push("💪 Braços: Ureadin");
+      if (effective.morningBody.some(i => i[0].includes("Ureadin"))) chips.push("🍑 Bumbum: Ureadin");
+      if (effective.nightBody.some(i => i[0].includes("Pigmentbio"))) chips.push("🦵 Entre pernas: Pigmentbio");
+      if ((effective.morningBody.concat(effective.nightBody)).some(i => i[0].includes("Pink Cheeks"))) chips.push("🚶 Atrito: Pink Cheeks");
+      if (effective.nightBody.some(i => i[0].includes("Bio-Oil"))) chips.push("🤎 Barriga: Bio-Oil");
+      if (dayState(day.id).sensitive) chips.push("🔥 Modo barreira ativado");
+      if (dayState(day.id).minimal) chips.push("🧳 Rotina mínima");
+
+      areaMap.innerHTML = chips.map(chip => `<div class="area-chip">${chip}</div>`).join("");
+    }
+
+    function renderNoMixWarning(day, effective) {
+      const st = dayState(day.id);
+      let extra = "";
+
+      if (effective.nightFace.some(i => i[0].includes("Retrinal"))) {
+        extra += " Hoje tem Retrinal: não misture com salicílico e não use se a pele estiver ardendo.";
+      }
+      if (effective.nightFace.some(i => i[0].includes("Salicylic"))) {
+        extra += " Hoje tem salicílico: use só nas áreas com cravos e evite bochechas sensíveis.";
+      }
+      if (st.sensitive) {
+        extra += " Como pele sensível está ativado, os ativos foram removidos e a rotina virou barreira.";
+      }
+      if (st.minimal) {
+        extra += " Como rotina mínima está ativada, a rotina abaixo foi reduzida ao essencial.";
+      }
+      return extra;
+    }
+
+    function markPeriod(period) {
+      const day = routine[activeDay];
+      const effective = getEffectiveRoutine(day);
+      const st = dayState(day.id);
+
+      const blocks = period === "morning"
+        ? ["morningFace", "morningBody"]
+        : ["nightFace", "nightBody"];
+
+      const allMarked = blocks.every(block =>
+        effective[block].every((_, index) => st.checks[`${block}_${index}`])
+      );
+
+      blocks.forEach(block => {
+        effective[block].forEach((_, index) => {
+          st.checks[`${block}_${index}`] = !allMarked;
+        });
+      });
+
+      if (allMarked) st.modalShown = false;
+      save();
+      render(true);
+    }
+
+    function render(fromInteraction = false) {
+      const day = routine[activeDay];
+      const effective = getEffectiveRoutine(day);
+
+      summaryDay.innerText = day.day;
+      summaryTheme.innerText = day.theme;
+
+      morningNote.innerText = effective.morningNote;
+      nightNote.innerText = effective.nightNote;
+
+      morningFaceCount.innerText = `${effective.morningFace.length} passos`;
+      morningBodyCount.innerText = `${effective.morningBody.length} passos`;
+      nightFaceCount.innerText = `${effective.nightFace.length} passos`;
+      nightBodyCount.innerText = `${effective.nightBody.length} passos`;
+
+      foodTip.innerText = effective.food;
+      workoutTip.innerText = effective.workout;
+      skinTip.innerText = effective.skin + renderNoMixWarning(day, effective);
+
+      renderWeek();
+      renderItems(morningFaceItems, effective.morningFace, "morningFace", day.id);
+      renderItems(morningBodyItems, effective.morningBody, "morningBody", day.id);
+      renderItems(nightFaceItems, effective.nightFace, "nightFace", day.id);
+      renderItems(nightBodyItems, effective.nightBody, "nightBody", day.id);
+      renderWater(day.id);
+      updateProgress(day, fromInteraction);
+      renderTrainingMode(day);
+      renderAdaptiveModes(day);
+      renderCheckin(day);
+      renderWeeklyProgress();
+      renderAreaMap(day, effective);
+    }
+
+    function formatDateBR(date) {
+      return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+    }
+
+    function getCycleStartDate() {
+      return cycleStartDate || "2026-04-20";
+    }
+
+    function addDays(date, days) {
+      const d = new Date(date);
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+
+    function daysBetween(start, end) {
+      const oneDay = 1000 * 60 * 60 * 24;
+      const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+      return Math.floor((e - s) / oneDay);
+    }
+
+    function renderCycleInsight() {
+      const startStr = getCycleStartDate();
+      cycleStartInput.value = startStr;
+
+      const start = new Date(startStr + "T00:00:00");
+      const today = new Date();
+      let day = daysBetween(start, today) + 1;
+
+      // Se passar de 32 dias e a data não for atualizada, estimamos o ciclo seguinte usando média de 31 dias.
+      let estimatedStart = new Date(start);
+      while (day > 32) {
+        estimatedStart = addDays(estimatedStart, 31);
+        day = daysBetween(estimatedStart, today) + 1;
+      }
+
+      const nextStartMin = addDays(estimatedStart, 30);
+      const nextStartMax = addDays(estimatedStart, 32);
+      let phase = "";
+      let insight = "";
+
+      if (day <= 5) {
+        phase = "menstrual";
+        insight = "Fase menstrual. A pele pode ficar mais sensível, reativa ou opaca. Priorize hidratação, água, banho morno e evite inventar ativo novo. Se estiver com cólica ou sono ruim, rotina básica já é vitória.";
+      } else if (day <= 13) {
+        phase = "folicular";
+        insight = "Fase folicular. A pele costuma tolerar melhor a rotina e pode parecer mais estável. Bom momento para manter constância com P-Tiox, salicílico localizado e Ureadin no corpo sem exagerar.";
+      } else if (day <= 17) {
+        phase = "ovulatória";
+        insight = "Fase ovulatória. Pode ter mais viço, mas algumas pessoas percebem oleosidade. Mantenha limpeza suave, protetor e atenção aos cravos sem aumentar a frequência dos ácidos.";
+      } else {
+        phase = "lútea";
+        insight = "Fase lútea. É comum aumentar oleosidade, cravos, inchaço e vontade de doce. Seja mais estratégica: não cutuque cravos, mantenha salicílico só onde precisa, hidrate bem e cuide do sono.";
+      }
+
+      cyclePill.innerText = `Dia ${day}`;
+      cycleStatus.innerText = `Você está no dia ${day} do ciclo, fase ${phase}. Próxima menstruação estimada entre ${formatDateBR(nextStartMin)} e ${formatDateBR(nextStartMax)}.`;
+      cycleInsight.innerText = insight;
+    }
+
+    cycleSaveBtn.onclick = () => {
+      if (cycleStartInput.value) {
+        cycleStartDate = cycleStartInput.value;
+        dbSet("cycleStartDate", cycleStartDate);
+        saveProfileToSupabase();
+        renderCycleInsight();
+      }
+    };
+
+
+    function weatherCodeText(code) {
+      if ([0].includes(code)) return "céu limpo";
+      if ([1,2,3].includes(code)) return "parcialmente nublado";
+      if ([45,48].includes(code)) return "neblina";
+      if ([51,53,55,56,57].includes(code)) return "garoa";
+      if ([61,63,65,66,67,80,81,82].includes(code)) return "chuva";
+      if ([95,96,99].includes(code)) return "temporais";
+      return "condição variável";
+    }
+
+    function buildWeatherInsight(temp, humidity, code, uv) {
+      const condition = weatherCodeText(code);
+      let insight = `Agora está cerca de ${Math.round(temp)}°C, umidade em ${Math.round(humidity)}% e tempo com ${condition}. `;
+
+      if (temp <= 16) {
+        insight += "Com frio, a pele tende a ressecar mais. Evite banho quente, mantenha o Sensibio AR+ certinho e capriche no Ureadin no corpo. ";
+      } else if (temp >= 27) {
+        insight += "Com calor, suor e oleosidade podem aumentar. Limpe o rosto após treino e evite deixar suor parado, principalmente em dia de salicílico ou rosácea ativa. ";
+      } else {
+        insight += "Temperatura intermediária: mantenha rotina normal e observe variações de vermelhidão. ";
+      }
+
+      if (humidity < 45) {
+        insight += "A umidade está baixa, então a barreira pode sentir mais. Água, hidratante e banho morno são prioridade. ";
+      } else if (humidity > 75) {
+        insight += "A umidade está alta, então pode aumentar sensação de oleosidade. Mantenha limpeza suave, sem exagerar nos ativos. ";
+      }
+
+      if (uv >= 6) {
+        insight += "UV alto: protetor solar Adcos é obrigatório e vale reaplicar se houver exposição.";
+      } else {
+        insight += "Mesmo com UV mais baixo ou tempo nublado, mantenha o protetor pela manhã.";
+      }
+
+      return insight;
+    }
+
+    async function fetchWeather(lat = -25.4284, lon = -49.2733, place = "Curitiba") {
+      try {
+        weatherStatus.innerText = `Consultando clima em ${place}...`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,uv_index&timezone=auto`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const current = data.current;
+        const temp = current.temperature_2m;
+        const humidity = current.relative_humidity_2m;
+        const code = current.weather_code;
+        const uv = current.uv_index ?? 0;
+
+        weatherStatus.innerText = `${place}: ${Math.round(temp)}°C, ${Math.round(humidity)}% de umidade, UV ${Math.round(uv)}.`;
+        weatherInsight.innerText = buildWeatherInsight(temp, humidity, code, uv);
+      } catch (e) {
+        weatherStatus.innerText = "Não consegui consultar a previsão agora.";
+        weatherInsight.innerText = "Mantenha a regra segura: protetor de manhã, banho morno, hidratação reforçada se estiver frio ou seco, e limpeza suave após suor.";
+      }
+    }
+
+    function updateWeather() {
+      weatherStatus.innerText = "Consultando a previsão do tempo...";
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => fetchWeather(pos.coords.latitude, pos.coords.longitude, "sua localização"),
+          () => fetchWeather(-25.4284, -49.2733, "Curitiba")
+        );
+      } else {
+        fetchWeather(-25.4284, -49.2733, "Curitiba");
+      }
+    }
+
+    weatherBtn.onclick = updateWeather;
+
+
+
+    function todayISODate() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function updateCloudStatus(message, status = "salvando") {
+      if (!cloudStatus || !cloudPill) return;
+      cloudStatus.innerText = message;
+      cloudPill.innerText = `Status: ${status}`;
+    }
+
+    async function supabaseRequest(path, options = {}) {
+      const headers = {
+        "apikey": supabaseKey,
+        "Authorization": `Bearer ${supabaseKey}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      };
+
+      const response = await fetch(`${supabaseUrl}${path}`, {
+        ...options,
+        headers
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `Erro Supabase ${response.status}`);
+      }
+
+      if (response.status === 204) return null;
+      const text = await response.text();
+      return text ? JSON.parse(text) : null;
+    }
+
+    async function getOrCreateSupabaseProfile() {
+      const encoded = encodeURIComponent(supabaseAccessKey);
+      const found = await supabaseRequest(`/rest/v1/skincare_profiles?access_key=eq.${encoded}&select=*`, {
+        method: "GET"
+      });
+
+      if (found && found.length) {
+        return found[0];
+      }
+
+      const created = await supabaseRequest("/rest/v1/skincare_profiles", {
+        method: "POST",
+        headers: { "Prefer": "return=representation" },
+        body: JSON.stringify({
+          access_key: supabaseAccessKey,
+          name: "Nath",
+          cycle_start_date: cycleStartDate || "2026-04-20"
+        })
+      });
+
+      return created && created[0] ? created[0] : null;
+    }
+
+    async function loadSupabaseState() {
+      try {
+        updateCloudStatus("Conectando ao Supabase para buscar seus dados salvos na nuvem...", "conectando");
+        supabaseProfile = await getOrCreateSupabaseProfile();
+
+        if (!supabaseProfile) {
+          throw new Error("Perfil Supabase não encontrado.");
+        }
+
+        supabaseOnline = true;
+
+        if (supabaseProfile.cycle_start_date) {
+          cycleStartDate = supabaseProfile.cycle_start_date;
+          await dbSet("cycleStartDate", cycleStartDate);
+        }
+
+        const logs = await supabaseRequest(`/rest/v1/skincare_daily_logs?profile_id=eq.${supabaseProfile.id}&select=log_date,day_id,state,updated_at&order=log_date.desc&limit=60`, {
+          method: "GET"
+        });
+
+        if (Array.isArray(logs)) {
+          logs.reverse().forEach(log => {
+            if (log.day_id && log.state) {
+              state[log.day_id] = log.state;
+            }
+          });
+          await dbSet(stateKey, state);
+        }
+
+        updateCloudStatus("Dados sincronizados com Supabase. O IndexedDB continua como backup local/offline.", "online");
+      } catch (error) {
+        supabaseOnline = false;
+        updateCloudStatus("Não consegui sincronizar com Supabase agora. Seus dados seguem salvos localmente no IndexedDB e serão mantidos nesse navegador.", "offline");
+      }
+    }
+
+    function scheduleSupabaseSave() {
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveCurrentDayToSupabase();
+      }, 650);
+    }
+
+    async function saveProfileToSupabase() {
+      try {
+        if (!supabaseProfile) {
+          supabaseProfile = await getOrCreateSupabaseProfile();
+        }
+
+        if (!supabaseProfile) return;
+
+        await supabaseRequest(`/rest/v1/skincare_profiles?id=eq.${supabaseProfile.id}`, {
+          method: "PATCH",
+          headers: { "Prefer": "return=minimal" },
+          body: JSON.stringify({
+            cycle_start_date: cycleStartDate,
+            updated_at: new Date().toISOString()
+          })
+        });
+      } catch (error) {
+        updateCloudStatus("Ciclo salvo localmente. Não consegui atualizar no Supabase agora.", "offline");
+      }
+    }
+
+    async function saveCurrentDayToSupabase() {
+      try {
+        const day = routine[activeDay];
+        const st = dayState(day.id);
+
+        if (!supabaseProfile) {
+          supabaseProfile = await getOrCreateSupabaseProfile();
+        }
+
+        if (!supabaseProfile) {
+          throw new Error("Sem perfil Supabase.");
+        }
+
+        const payload = {
+          profile_id: supabaseProfile.id,
+          log_date: todayISODate(),
+          day_id: day.id,
+          state: st,
+          updated_at: new Date().toISOString()
+        };
+
+        await supabaseRequest("/rest/v1/skincare_daily_logs?on_conflict=profile_id,log_date", {
+          method: "POST",
+          headers: {
+            "Prefer": "resolution=merge-duplicates,return=minimal"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        supabaseOnline = true;
+        updateCloudStatus("Última alteração salva na nuvem e também no IndexedDB local.", "online");
+      } catch (error) {
+        supabaseOnline = false;
+        updateCloudStatus("Alteração salva localmente. A nuvem não respondeu agora; use Exportar backup se quiser garantir uma cópia.", "offline");
+      }
+    }
+
+
+    function showBackupNote(message) {
+      backupNote.innerText = message;
+      backupNote.classList.add("show");
+      setTimeout(() => backupNote.classList.remove("show"), 5200);
+    }
+
+    function downloadTextFile(filename, text, type = "application/json") {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function todayFileStamp() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function exportBackup() {
+      const payload = {
+        app: "Rotina de Pele Nath",
+        version: "v10-indexeddb",
+        exportedAt: new Date().toISOString(),
+        state,
+        cycleStartDate
+      };
+
+      downloadTextFile(
+        `backup-rotina-pele-nath-${todayFileStamp()}.json`,
+        JSON.stringify(payload, null, 2),
+        "application/json"
+      );
+
+      showBackupNote("Backup completo exportado. Guarde esse arquivo para restaurar em outro navegador ou celular.");
+    }
+
+    async function importBackupFromFile(file) {
+      try {
+        const text = await file.text();
+        const payload = JSON.parse(text);
+
+        if (!payload || typeof payload !== "object") {
+          throw new Error("Arquivo inválido.");
+        }
+
+        const importedState = payload.state && typeof payload.state === "object" ? payload.state : null;
+        if (!importedState) {
+          throw new Error("Esse backup não tem dados de rotina.");
+        }
+
+        state = importedState;
+        cycleStartDate = payload.cycleStartDate || cycleStartDate || "2026-04-20";
+
+        await dbSet(stateKey, state);
+        await dbSet("cycleStartDate", cycleStartDate);
+
+        render(false);
+        renderCycleInsight();
+        showBackupNote("Backup importado com sucesso. Seus dados foram restaurados nesse navegador.");
+      } catch (error) {
+        showBackupNote("Não consegui importar esse arquivo. Verifique se é um backup JSON gerado por esse app.");
+      } finally {
+        backupFileInput.value = "";
+      }
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function getWaterAmountForDay(dayId) {
+      const st = dayState(dayId);
+      return waterAmountFromState(st);
+    }
+
+    function getCheckinValue(dayId, key) {
+      const st = dayState(dayId);
+      return st.checkin && st.checkin[key] ? st.checkin[key] : "";
+    }
+
+    function getDoneBlocksForDay(day) {
+      const st = dayState(day.id);
+      const effective = getEffectiveRoutine(day);
+      const blocks = ["morningFace", "morningBody", "nightFace", "nightBody"];
+      const result = {};
+
+      blocks.forEach(block => {
+        const total = effective[block].length;
+        const done = effective[block].filter((_, index) => st.checks[`${block}_${index}`]).length;
+        result[block] = total > 0 && done === total ? "sim" : "não";
+      });
+
+      return result;
+    }
+
+    function exportCsv() {
+      const headers = [
+        "dia_semana",
+        "rotina_100",
+        "progresso_percentual",
+        "agua_litros",
+        "manhã_rosto_concluida",
+        "manhã_corpo_concluida",
+        "noite_rosto_concluida",
+        "noite_corpo_concluida",
+        "modo_treino",
+        "pele_sensivel",
+        "rotina_minima",
+        "vermelhidão",
+        "oleosidade",
+        "cravos_poros",
+        "inicio_ciclo"
+      ];
+
+      const rows = routine.map(day => {
+        const st = dayState(day.id);
+        const progress = currentProgress(day);
+        const blocks = getDoneBlocksForDay(day);
+
+        return [
+          day.day,
+          progress.pct >= 100 ? "sim" : "não",
+          progress.pct,
+          getWaterAmountForDay(day.id),
+          blocks.morningFace,
+          blocks.morningBody,
+          blocks.nightFace,
+          blocks.nightBody,
+          st.workoutMode || "none",
+          st.sensitive ? "sim" : "não",
+          st.minimal ? "sim" : "não",
+          getCheckinValue(day.id, "redness"),
+          getCheckinValue(day.id, "oil"),
+          getCheckinValue(day.id, "blackheads"),
+          cycleStartDate
+        ];
+      });
+
+      const csv = [headers, ...rows]
+        .map(row => row.map(csvEscape).join(";"))
+        .join("\n");
+
+      downloadTextFile(
+        `historico-rotina-pele-nath-${todayFileStamp()}.csv`,
+        "\ufeff" + csv,
+        "text/csv;charset=utf-8"
+      );
+
+      showBackupNote("Histórico exportado em CSV. Você pode abrir no Excel ou Google Sheets.");
+    }
+
+    exportBackupBtn.onclick = exportBackup;
+    importBackupBtn.onclick = () => backupFileInput.click();
+    exportCsvBtn.onclick = exportCsv;
+    backupFileInput.onchange = event => {
+      const file = event.target.files && event.target.files[0];
+      if (file) importBackupFromFile(file);
+    };
+
+
+    async function initApp() {
+      await loadInitialState();
+      await loadCycleStartDate();
+      await loadSupabaseState();
+      setTodayPill();
+      render(false);
+      renderCycleInsight();
+      updateWeather();
+    }
+
+    initApp();
+  </script>
+
+  <script>
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
